@@ -1,2 +1,4 @@
 # DMOJ-Solutions
-Solutions to various DMOJ problems
+
+CCC, YAC, DMOPC, COCI, CCO, IOI
+Please don't copy (plus its bad code anyways)
