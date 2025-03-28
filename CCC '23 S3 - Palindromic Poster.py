@@ -1,67 +1,50 @@
-import sys
-width,height,bottom,right = int(input()),int(input()),int(input()),int(input())
-slope = (right)/(width-bottom)
-b = right - slope*width
-path = 1
-visited,visited2 = ['Right'],set()
-x,y = width,right
-while True:
-    slope = -slope
-    b = y-slope*x
-    if 'Top' not in visited and 0 <= ((height - b)/(slope)) <= width:  #top
-        if 0 <= ((height - b)/(slope)) < 5 or width-5 < ((height - b)/(slope)) <= width:
-            break
-        visited[0] = 'Top'
-        path += 1
-        x,y = round((height - b)/(slope),10),height
-        if (x,y) in visited2:
-            print(0)
-            sys.exit()
-        else:
-            visited2.add((x,y))
+import math
+n,m,r,c = list(map(int,input().split()))
 
-    elif 'Left' not in visited and 0 <= (slope*0 + b) <= height: #left
-        if 0 <= (slope*0 + b) < 5 or height-5 < (slope*0 + b) <= height:
-            break
-        visited[0] = 'Left'
-        path += 1
-        x,y = 0,round((slope*0 + b),10)
-        if (x,y) in visited2:
-            print(0)
-            sys.exit()
-        else:
-            visited2.add((x,y))
-            
-    elif 'Bottom' not in visited and 0 <= ((0 - b)/(slope)) <= width: #bottom
-        if 0 <= ((0 - b)/(slope)) < 5 or width-5 < ((0 - b)/(slope)) <= width:
-            if ((0 - b)/(slope)) < 5:
-                break
+poster = []
+if n != 2:
+    for i in range(n):
+        row = []
+        for j in range(m):
+            if i != n-1:
+                row.append('a')
             else:
-                break
-        visited[0] = 'Bottom'
-        path += 1
-        x,y =  round((0 - b)/(slope),10),0
-        if (x,y) in visited2:
-            print(0)
-            sys.exit()
-        else:
-            visited2.add((x,y))
-    elif 'Right' not in visited and 0 <= (slope*width + b) <= height: #right
-        if 0 <= (slope*width + b) < 5 or height-5 < (slope*width + b) <= height:
-            break
-        visited[0] = 'Right'
-        path += 1
-        x,y = width,round((slope*width + b),10)
-        if (x,y) in visited2:
-            print(0)
-            sys.exit()
-        else:
-            visited2.add((x,y))
-print(path)
+                row.append('b')
+        row[0] = 'b'
+        if i == 0:
+            row[-1] = 'b'
+        if i == n-1:
+            row[-1] = 'a'
+            
+        poster.append(row)
+else:
+    if (m % 2 == 0 and c % 2 == 1) or (c >= math.ceil(m/2)+1 and r <= 1):
+        print(math.ceil(n/2)-1)
+        print(-1)
+        exit()
+    else:
+        for i in range(n):
+            row = []
+            for j in range(m):
+                if i == 0:
+                    row.append('a')
+                else:
+                    row.append('b')
+            poster.append(row)
+        if r == 0 or r == 1:
+            poster[0][0] = 'b'
+        if r == 0 or r == 2:
+            poster[1][0] = 'a'
 
+        l,r = m//2,m//2
+        if c % 2 == 0:
+            l -= 1
+            r += 1
+        for i in range(math.ceil(c/2)):
+            poster[1][l] = 'a'
+            poster[1][r] = 'a'
+            l += 1; r -= 1
 
-
-
-
-
-
+for i in poster:
+    print(''.join(i))
+    

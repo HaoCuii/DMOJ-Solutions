@@ -1,18 +1,23 @@
-N,W = map(int,input().split())
-
-dp = [[0] * (10^3 + 1) for _ in range(N + 1)]
+N, W = map(int, input().split())
 items = []
-
+total = 0
 for i in range(N):
-    items.append(list(map(int,input().split())))
+    a, b = map(int, input().split())
+    items.append((a, b))
+    total += b
 
-for i in range(N+1):
-    for j in range(10^3 + 1):
-        if i == 0 or j == 0:
-            dp[i][j] = 0
-        elif j - items[i-1][1] >= 0:
-            dp[i][j] = max(dp[i-1][j],dp[i - 1][j - items[i - 1][1]] + items[i - 1][1])
+dp = [[float('inf') for _ in range(total+1)] for i in range(N+1)]
+dp[0][0] = 0
+
+for i in range(1,N+1):
+    w,v = items[i-1]
+    for j in range(total+1):
+        if j-v >= 0:
+            dp[i][j] = min(dp[i-1][j],dp[i-1][j-v] + w)
         else:
             dp[i][j] = dp[i-1][j]
 
-print(dp[-1][-1])
+for j in range(total,-1,-1):
+    if dp[N][j] <= W:
+        print(j)
+        break
