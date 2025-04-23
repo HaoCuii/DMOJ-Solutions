@@ -1,36 +1,28 @@
-inp = int(input())
-score_moves = []
-for i in range(inp * 2):
-    score_moves.append(int(input()))
+import sys
+input = sys.stdin.readline
+t = int(input())
+for i in range(t):
+    n = list(map(int, input().strip()))
+    k = int(input())
+    end = []
+    j = 0
 
-for j in range(inp):
-    score = list(str(score_moves[j * 2]))
-    score = [int(val) for val in score]
-    final_score = []
-    x = score_moves[j * 2 + 1]
-    if ''.join(map(str, final_score + score)) == min(score):
-        break
-    else:
-        for k in range(x):
-            if len(score) != 0:
-                moving_val = score[:x + 1]
-                moving_val_min = min(moving_val)
-                while True:
-                    if len(moving_val) != 0:
-                        if score[0] == moving_val_min:
-                            final_score.append(score[0])
-                            score.pop(0)
-                            moving_val = score[:x + 1]
-                            if len(moving_val) != 0:
-                                moving_val_min = min(moving_val)
-                        else:
-                            break
-                    else:
-                        break
-                if x > 0 and len(moving_val) != 0:
-                    before_moving_val = moving_val[:moving_val.index(moving_val_min)]
-                    before_moving_val_sorted = sorted(before_moving_val)
-                    score.pop(score.index(before_moving_val_sorted[0]))
-                    score.append(before_moving_val_sorted[0])
-                    x -= 1
-        print(''.join(map(str, final_score + score)))
+    while k > 0 and j < len(n)-1:
+        if n[j] > n[j+1]:
+            end.append(n[j])
+            k -= 1
+            n.pop(j)
+            j = max(0,j-1)
+        else:
+            j += 1
+    
+    if end != []:
+        smallest = sorted(end)[0]
+        while k > 0:
+            if n[-1] > smallest:
+                end.append(n.pop())
+                k -= 1
+            else:
+                break  
+    n.extend(sorted(end))
+    print(''.join(list(map(str,n))))
