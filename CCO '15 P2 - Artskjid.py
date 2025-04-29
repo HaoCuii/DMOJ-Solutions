@@ -1,35 +1,29 @@
-import sys
+#Bitmask dp and BFS 
+#dp[v][mask] - is it possible to reach v with only the nodes in the mask
 
-N, M = map(int, input().split())
-graph = [[] for _ in range(N)]
+from collections import deque
 
-for i in range(M):
-    a, b, c = map(int, input().split())
-    graph[a].append((b, c))
+n, m = map(int, input().split())
+graph = [[] for _ in range(n)]
+for _ in range(m):
+    s, d, l = map(int, input().split())
+    graph[s].append((d, l))
 
-def dfs(node, adj, visited, stack):
-    visited[node] = True
+dp = [([-float('inf')] * (1<<n)) for _ in range(n)]
+dp[0][1<<0] = 0
+q = deque([(0, 1<<0)])
+longest = -float('inf')
 
-    for neighbor, _ in adj[node]: 
-        if not visited[neighbor]:
-            dfs(neighbor, adj, visited, stack)
-    
-    stack.append(node)
+while q:
+    v, mask = q.popleft()
+    if v == n-1:
+        longest = max(dp[v][mask], longest)
+        
+    for u, w in graph[v]:
+        new_mask = mask | (1<<u)
+        if dp[v][mask] + w > dp[u][new_mask] and new_mask != mask:
+            q.append((u, new_mask))
+            dp[u][new_mask] = dp[v][mask] + w
 
-stack = []
-visited = [False] * N
+print(longest)
 
-for i in range(N):
-    if not visited[i]:
-        dfs(i, graph, visited, stack)
-
-dist = [-float('inf')] * N
-dist[0] = 0 
-
-while len(stack) > 0: 
-    node = stack.pop()
-    for neighbor, cost in graph[node]: 
-        if dist[neighbor] < dist[node] + cost: 
-            dist[neighbor] = dist[node] + cost
-
-print(dist[-1])
