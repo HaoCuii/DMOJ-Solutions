@@ -22,6 +22,7 @@
         "span": "cpp",
         "stacktrace": "cpp",
         "text_encoding": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "complex": "cpp"
     }
 }
