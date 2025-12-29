@@ -1,0 +1,1 @@
+Magic.method.__func__(None)
