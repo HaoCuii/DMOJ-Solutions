@@ -1,10 +1,7 @@
-#why does this code work???? I have no clue why lol.
-
 n = int(input())
 friends = []  # p,w,d
 for i in range(n):
     p, w, d = map(int, input().split())
-    w = 1/w
     friends.append([p, w, d])
 friends.sort()
 
@@ -26,8 +23,8 @@ b = 0
 
 for i in range(k, 2*n):
     if newfriends[i][3] == "l":
-        m += -(1 / newfriends[i][1])
-        b += (newfriends[i][0]) / newfriends[i][1]
+        m += -(newfriends[i][1])
+        b += (newfriends[i][0]) * newfriends[i][1]
 
 ans = newfriends[0][0]*m + b
 idx = k
@@ -38,18 +35,13 @@ while (idx < n*2):
         k += 1
     for i in range(k):
         if newfriends[idx+i][3] == "l":
-            m += (1 / newfriends[idx+i][1])
-            b += -(newfriends[idx+i][0] / newfriends[idx+i][1])
+            m += (newfriends[idx+i][1])
+            b += -(newfriends[idx+i][0] * newfriends[idx+i][1])
         else:
-            m += 1 / newfriends[idx+i][1]
-            b += -(newfriends[idx][0] / newfriends[idx+i][1])
+            m += newfriends[idx+i][1]
+            b += -(newfriends[idx][0] * newfriends[idx+i][1])
     ans = min(ans,newfriends[idx][0] * m + b)
     idx += k
 
 
-print(round(ans))
-
-
-    
-
-
+print(ans)
