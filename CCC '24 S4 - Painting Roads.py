@@ -55,3 +55,4 @@ for i in range(len(road_plan)):
         road_plan[i] = 'G'
 
 print(''.join(road_plan))
+
